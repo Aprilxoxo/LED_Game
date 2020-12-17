@@ -2,10 +2,12 @@ package de.thdeg.game;
 
 import java.util.ArrayList;
 
+//7 segment display for numbers
 public class NumberRenderer {
     boolean[][] segmentCache;
     final short MAX_SHORT = 255;
 
+    //initialize the segmentCache, which specifies what pixels to color to display a given number
     NumberRenderer() 
     {
         this.segmentCache = new boolean[10][];
@@ -31,6 +33,7 @@ public class NumberRenderer {
                 true, true, true, true };
     }
 
+    //converts a number to pixel data
     public boolean[] intToPixels(int number) 
     {
         if (number < 0 || number > 9) 
@@ -41,6 +44,7 @@ public class NumberRenderer {
         return this.segmentCache[number];
     }
 
+    //renders a given digit on screen at the top right + a given offset for both x and y
     private void renderDigit(int digit, int topleftX, int topleftY, short[] screen) 
     {
         boolean[] pixels = intToPixels(digit);
@@ -54,6 +58,7 @@ public class NumberRenderer {
         }
     }
 
+    //renders a given digit on screen at the top right + a given y offset
     public void renderNumberTopRight(int number, short[] screen, int yNegativeOffset) 
     {
         ArrayList<Integer> digits = new ArrayList<Integer>();

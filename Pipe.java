@@ -1,15 +1,27 @@
 package de.thdeg.game;
 
+//class holding info about a pipe
 public class Pipe {
     private Vector2 position;
     private boolean passed = false;
 
-    //TODO make this doable at high speed
-    Pipe()
+    //constructs a pipe at the right side of the screen and with semi-randomly placed opening
+    Pipe(int speed)
     {
-        this.position = new Vector2(47, 8 + (int)(Math.random() * ((16 - 8) + 1)));
+        //this.position = new Vector2(47, 8 + (int)(Math.random() * ((16 - 8) + 1)));
+        this.position = new Vector2(47, this.generateOpeningPosition(speed));
     }
 
+    //generate the opening's height level according to speed so that the game is playable at higher speeds
+    private int generateOpeningPosition(int speed)
+    {
+        int mod = (speed - 2) / 2;
+        int min = 8 + mod;
+        int max = 16 - mod;
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
+
+    //moves pipe one to the left
     public void onUpdate()
     {
         this.position.updateX((short)-1);
@@ -32,11 +44,13 @@ public class Pipe {
         }
     }
 
+    //returns true if the pipe is still on screen
     public boolean isValid()
     {
         return this.position.getX() >= 0;
     }
 
+    //returns true if the player is within the opening
     public boolean checkCollision(Bird player, ScoreManager scoreHandler)
     {
         if(this.position.getX() != player.getPosition().getX())

@@ -1,5 +1,6 @@
 package de.thdeg.game;
 
+//player class
 public class Bird {
    private Vector2 position;
 
@@ -8,6 +9,7 @@ public class Bird {
         this.position = new Vector2(20, 12);
     }
 
+    //updates the height of the player
     public void updateHeight(short value)
     {
         if(this.position.getY() == 0 && value == -1 || this.position.getY() == 23 && value == 1) return;

@@ -2,9 +2,9 @@ package de.thdeg.game;
 
 import de.thdeg.game.runtime.InternalLedGameThread;
 
-//TODO cleanup project
 public class GameMain {
 
+    //resets the screen to a light blue
     static public void resetScreen(short[] screen)
     {
         for(int i=0; i<screen.length; i+=3){
@@ -14,6 +14,7 @@ public class GameMain {
         }
     }
 
+    //sets a given pixel to an rgb value
     static public void setPixel(short[] screen,int x, int y, short r, short g, short b)
     {
         screen[(y * 48 + x) * 3] = r;
@@ -36,6 +37,7 @@ public class GameMain {
         resetScreen(myImage);
         InternalLedGameThread.showImage(myImage);
 
+        //initialize the game classes
         Bird playerController = new Bird();
         PipeManager pipeManager = new PipeManager();
         ScoreManager scoreHandler = new ScoreManager();
@@ -48,6 +50,7 @@ public class GameMain {
         // Now we loop with keyboard input
         while(true){
             thisKey= InternalLedGameThread.getKeyboard();
+            //Update the player height if we got a key input
             if(thisKey!=-1) {
                 switch (thisKey) {
                     case 0:
@@ -58,23 +61,30 @@ public class GameMain {
                         break;
                 }                
             }
+            //update the pipes
             pipeManager.update(myImage, frame);
-            playerController.draw(myImage);           
+            playerController.draw(myImage);    
+            //render the current score   
             scoreHandler.displayScore(myImage);
             scoreHandler.displayHighScore(myImage);
+            //if the player collides with a pipe it is game over
             if(pipeManager.checkCollision(playerController, scoreHandler))
             {
                 System.out.println("GAME OVER");              
                 resetScreen(myImage);
                 pipeManager = new PipeManager();
                 playerController = new Bird();
+                playerController.draw(myImage);   
+                InternalLedGameThread.showImage(myImage);
                 frame = 0;
                 scoreHandler.onGameOver();
                 Thread.sleep(500);
             }
+            //otherwise we update speed and advance/render the frame
             else{
                 pipeManager.setSpeed(scoreHandler);
                 InternalLedGameThread.showImage(myImage);
+                //we dispose of the frame at the end
                 resetScreen(myImage);
                 frame++;
             }           

@@ -1,5 +1,6 @@
 package de.thdeg.game;
 
+//2D Vector class using short for x/y
 public class Vector2 {
     private short y;
     private short x;
@@ -36,11 +37,13 @@ public class Vector2 {
         this.y = y;
     }
 
+    //modify x with a given value
     public void updateX(short value)
     {
         this.x += value;
     }
 
+    //modify y with a given value
     public void updateY(short value)
     {
         this.y += value;
