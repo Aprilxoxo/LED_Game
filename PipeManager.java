@@ -15,11 +15,24 @@ public class PipeManager {
         this.pipes = new LinkedList<Pipe>();
     }
 
+    private void draw(short[] screen)
+    {
+        for(int i = 0; i < pipes.size(); i++)
+        {
+            Pipe pipe = pipes.get(i);
+            if(pipe.isValid())
+            {
+                pipe.draw(screen);
+            }
+        }
+    }
+
     public void update(short[] screen, int frame)
     {
+        this.draw(screen);
+
         if(frame % (MAX_FPS / fps) != 0)
         {
-            //System.out.println(String.format("frame %d is being skipped", frame));
             return;
         }
 
@@ -36,7 +49,7 @@ public class PipeManager {
             Pipe pipe = pipes.get(i);
             if(pipe.isValid())
             {
-                pipe.draw(screen);
+                pipe.OnUpdate();
             }
             else
             {

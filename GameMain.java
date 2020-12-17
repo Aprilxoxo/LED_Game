@@ -3,15 +3,14 @@ package de.thdeg.game;
 import de.thdeg.game.runtime.InternalLedGameThread;
 
 //TODO cleanup project
-//TODO add ascii render engine
 public class GameMain {
 
-    static public void ResetScreen(short[] myImage)
+    static public void ResetScreen(short[] screen)
     {
-        for(int i=0; i<myImage.length; i+=3){
-            myImage[i+0]=(short)137;
-            myImage[i+1]=(short)207;
-            myImage[i+2]=(short)240;
+        for(int i=0; i<screen.length; i+=3){
+            screen[i+0]=(short)137;
+            screen[i+1]=(short)207;
+            screen[i+2]=(short)240;
         }
     }
 
@@ -33,25 +32,20 @@ public class GameMain {
 
         // Now we show some introductory message and wait 1s before we switch to purple
         System.out.println("Please wait for three seconds for the game to start");
-        Thread.sleep(1000);
-        for(int i=0; i<myImage.length; i+=3){
-            myImage[i+0]=(short)137;
-            myImage[i+1]=(short)207;
-            myImage[i+2]=(short)240;
-        }
-        System.out.println("Sending to displayThread");
+        Thread.sleep(3000);
+        ResetScreen(myImage);
         InternalLedGameThread.showImage(myImage);
 
         Bird playerController = new Bird();
         PipeManager pipeManager = new PipeManager();
         ScoreManager scoreHandler = new ScoreManager();
 
-        // After 300ms we show the first green dot
+        // After 300ms we show the player
         playerController.draw(myImage);
         Thread.sleep(300);
         InternalLedGameThread.showImage(myImage);
 
-        // Now we loop with keyboard input to show the movement of the green dot
+        // Now we loop with keyboard input
         while(true){
             thisKey= InternalLedGameThread.getKeyboard();
             if(thisKey!=-1) {
@@ -64,13 +58,12 @@ public class GameMain {
                         break;
                 }                
             }
-            playerController.draw(myImage);
             pipeManager.update(myImage, frame);
+            playerController.draw(myImage);           
             scoreHandler.displayScore(myImage);
             scoreHandler.displayHighScore(myImage);
             if(pipeManager.checkCollision(playerController, scoreHandler))
             {
-                //TODO some game over screen
                 System.out.println("GAME OVER");              
                 ResetScreen(myImage);
                 pipeManager = new PipeManager();
@@ -82,6 +75,7 @@ public class GameMain {
             else{
                 pipeManager.setSpeed(scoreHandler);
                 InternalLedGameThread.showImage(myImage);
+                ResetScreen(myImage);
                 frame++;
             }           
             Thread.sleep(100);
