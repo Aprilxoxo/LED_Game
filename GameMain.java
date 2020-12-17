@@ -5,7 +5,7 @@ import de.thdeg.game.runtime.InternalLedGameThread;
 //TODO cleanup project
 public class GameMain {
 
-    static public void ResetScreen(short[] screen)
+    static public void resetScreen(short[] screen)
     {
         for(int i=0; i<screen.length; i+=3){
             screen[i+0]=(short)137;
@@ -33,7 +33,7 @@ public class GameMain {
         // Now we show some introductory message and wait 1s before we switch to purple
         System.out.println("Please wait for three seconds for the game to start");
         Thread.sleep(3000);
-        ResetScreen(myImage);
+        resetScreen(myImage);
         InternalLedGameThread.showImage(myImage);
 
         Bird playerController = new Bird();
@@ -65,7 +65,7 @@ public class GameMain {
             if(pipeManager.checkCollision(playerController, scoreHandler))
             {
                 System.out.println("GAME OVER");              
-                ResetScreen(myImage);
+                resetScreen(myImage);
                 pipeManager = new PipeManager();
                 playerController = new Bird();
                 frame = 0;
@@ -75,7 +75,7 @@ public class GameMain {
             else{
                 pipeManager.setSpeed(scoreHandler);
                 InternalLedGameThread.showImage(myImage);
-                ResetScreen(myImage);
+                resetScreen(myImage);
                 frame++;
             }           
             Thread.sleep(100);

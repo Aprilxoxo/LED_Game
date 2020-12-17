@@ -49,7 +49,7 @@ public class PipeManager {
             Pipe pipe = pipes.get(i);
             if(pipe.isValid())
             {
-                pipe.OnUpdate();
+                pipe.onUpdate();
             }
             else
             {
