@@ -72,6 +72,6 @@ public class ScoreManager {
     {
         if(this.highscore == 0) return;
 
-        renderer.renderNumberTopRight(this.highscore, screen, 6);
+        renderer.renderNumberTopLeft(this.highscore, screen, 0);
     }
 }

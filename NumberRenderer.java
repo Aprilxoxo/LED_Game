@@ -87,4 +87,34 @@ public class NumberRenderer {
             renderDigit(digits.get(i), currentX, topY, screen);
         }
     }
+
+    //renders a given digit on screen at the top left + a given y offset
+    public void renderNumberTopLeft(int number, short[] screen, int yNegativeOffset) 
+    {
+        ArrayList<Integer> digits = new ArrayList<Integer>();
+        if (number == 0) 
+        {
+            digits.add(0);
+        } else
+        {
+            // First we split the number into it's digits
+            while (number > 0)
+            {
+                digits.add(number % 10);
+                number = number / 10;
+            }
+        }
+
+        // Then we iterate backwards though the list and render the digits
+
+        int currentX = 1;
+        int topY = 0 + yNegativeOffset;
+        int spacing = 1;
+        for (int i = digits.size() - 1; i >= 0 ; i--)
+        {
+            // We move back enough space for the digit and spacing
+            renderDigit(digits.get(i), currentX, topY, screen);
+            currentX += 3 + spacing;
+        }
+    }
 }
